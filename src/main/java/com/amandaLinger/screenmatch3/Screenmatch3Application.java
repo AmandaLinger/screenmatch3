@@ -1,5 +1,6 @@
 package com.amandaLinger.screenmatch3;
 
+import com.amandaLinger.screenmatch3.model.DadosEpisodio;
 import com.amandaLinger.screenmatch3.model.DadosSerie;
 import com.amandaLinger.screenmatch3.service.ConverteDados;
 import com.amandaLinger.screenmatch3.service.ConsumoApi;
@@ -16,12 +17,15 @@ public class Screenmatch3Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var conusmoApi = new ConsumoApi();
-		var json = conusmoApi.obterDados("http://www.omdbapi.com/?t=gilmore+girls&apikey=4ea549c4");
+		var consumoApi = new ConsumoApi();
+		var json = consumoApi.obterDados("http://www.omdbapi.com/?t=gilmore+girls&apikey=4ea549c4");
 		System.out.println(json);
 		ConverteDados conversor = new ConverteDados();
 		DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
 
 		System.out.println(dados);
+		json = consumoApi.obterDados("http://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=4ea549c4");
+		DadosEpisodio dadosEpisodio = conversor.obterDados(json, DadosEpisodio.class);
+		System.out.println(dadosEpisodio);
 	}
 }
