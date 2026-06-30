@@ -1,5 +1,6 @@
 package com.amandaLinger.screenmatch3.principal;
 
+import com.amandaLinger.screenmatch3.model.DadosEpisodio;
 import com.amandaLinger.screenmatch3.model.DadosSerie;
 import com.amandaLinger.screenmatch3.model.DadosTemporada;
 import com.amandaLinger.screenmatch3.service.ConsumoApi;
@@ -35,6 +36,15 @@ public class Principal {
 			temporadas.add(dadosTemporada);
 		}
 		temporadas.forEach(System.out::println);
+
+//        for(int i =0; i <dados.totalTemporadas(); i++){
+//            List<DadosEpisodio> episodiosTemporada = temporadas.get(i).episodios();
+//            for(int j = 0; j < episodiosTemporada.size(); j++){
+//                System.out.println(episodiosTemporada.get(j).titulo());
+//            }
+//        }
+
+        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.toString())));
     }
 
 }
