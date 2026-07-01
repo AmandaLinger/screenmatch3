@@ -7,6 +7,8 @@ import com.amandaLinger.screenmatch3.model.Episodio;
 import com.amandaLinger.screenmatch3.service.ConsumoApi;
 import com.amandaLinger.screenmatch3.service.ConverteDados;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,19 +59,39 @@ public class Principal {
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
 
-        System.out.println("\nTop 5 episodios:");
+        System.out.println("\nTop 5 episodios:"); //buscando top 5
         dadosEpisodios.stream()
                 .filter(e  -> !e.avaliacao().equalsIgnoreCase("N/A"))
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
                 .limit(5)
                 .forEach(System.out::println);
 
+        System.out.println("\n"); //imprimindo todos os episodios
         List<Episodio> episodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream()
                         .map(d -> new Episodio(t.numero(),d))
                 ).collect(Collectors.toList());
 
         episodios.forEach(System.out::println);
+
+        System.out.println("Apartir de que ano deseja ver os episodios?");
+        var ano = scanner.nextInt();
+        scanner.nextLine();
+
+        LocalDate dataBusca = LocalDate.of(ano,1,1);
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //formatacao data
+
+        episodios.stream()
+                .filter(e ->e.getDataLancamento() != null &&
+                        e.getDataLancamento().isAfter(dataBusca))
+                .forEach( e -> System.out.println(
+                        "Temporada : " + e.getTemporada() +
+                                " Episódio : " + e.getTitulo() +
+                                " Data lançamento : " + e.getDataLancamento().format(formatador)
+                ));
+
+
     }
 
 }
