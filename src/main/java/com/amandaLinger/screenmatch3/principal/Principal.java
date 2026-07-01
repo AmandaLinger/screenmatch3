@@ -59,11 +59,16 @@ public class Principal {
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
 
-        System.out.println("\nTop 5 episodios:"); //buscando top 5
+        System.out.println("\nTop 10 episodios:"); //buscando top 5
         dadosEpisodios.stream()
                 .filter(e  -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .peek(e -> System.out.println("Primerio filtro N/A " + e))
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                .limit(5)
+                .peek(e -> System.out.println("Ordenacao " + e))
+                .limit(10)
+                .peek(e -> System.out.println("Limite " + e))
+                .map(e -> e.titulo().toUpperCase())
+                .peek(e -> System.out.println("Mapeamento " + e))
                 .forEach(System.out::println);
 
         System.out.println("\n"); //imprimindo todos os episodios
@@ -74,22 +79,22 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
-        System.out.println("Apartir de que ano deseja ver os episodios?");
-        var ano = scanner.nextInt();
-        scanner.nextLine();
-
-        LocalDate dataBusca = LocalDate.of(ano,1,1);
-
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //formatacao data
-
-        episodios.stream()
-                .filter(e ->e.getDataLancamento() != null &&
-                        e.getDataLancamento().isAfter(dataBusca))
-                .forEach( e -> System.out.println(
-                        "Temporada : " + e.getTemporada() +
-                                " Episódio : " + e.getTitulo() +
-                                " Data lançamento : " + e.getDataLancamento().format(formatador)
-                ));
+//        System.out.println("Apartir de que ano deseja ver os episodios?");
+//        var ano = scanner.nextInt();
+//        scanner.nextLine();
+//
+//        LocalDate dataBusca = LocalDate.of(ano,1,1);
+//
+//        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //formatacao data
+//
+//        episodios.stream()
+//                .filter(e ->e.getDataLancamento() != null &&
+//                        e.getDataLancamento().isAfter(dataBusca))
+//                .forEach( e -> System.out.println(
+//                        "Temporada : " + e.getTemporada() +
+//                                " Episódio : " + e.getTitulo() +
+//                                " Data lançamento : " + e.getDataLancamento().format(formatador)
+//                ));
 
 
     }
